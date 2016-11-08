@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @UiThread
         @Override
         protected void onPreExecute() {
+            mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
             code = mEditText.getText().toString();
         }
 
