@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AMT</string>
-    <string name="action_settings">Settings</string>
-    <string name="invia">Invia</string>
+    <string name="transiti">Vedi transiti</string>
     <string name="codice_fermata">Codice fermata</string>
 </resources>
