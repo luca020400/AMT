@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 stops.addAll(new Parser(url, code).parse());
             } catch (IOException e) {
                 Log.e(TAG, "", e);
-                e.printStackTrace();
             }
 
             return stops;
