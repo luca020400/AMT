@@ -64,6 +64,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onRefresh() {
+        new StopTask().execute();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputManager =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            inputManager.hideSoftInputFromWindow(focusedView.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
     private class StopTask extends AsyncTask<Void, Void, List<Stop>> {
         private String code;
 
@@ -101,21 +116,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             // Delay refreshing animation just for the show
             new Handler().postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), 300);
-        }
-    }
-
-    @Override
-    public void onRefresh() {
-        new StopTask().execute();
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputManager =
-                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        View focusedView = getCurrentFocus();
-        if (focusedView != null) {
-            inputManager.hideSoftInputFromWindow(focusedView.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }
