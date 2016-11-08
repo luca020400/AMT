@@ -1,8 +1,6 @@
 package com.luca020400.amt;
 
-import java.io.Serializable;
-
-class Stop implements Serializable {
+class Stop {
     private String line;
     private String destination;
     private String schedule;
