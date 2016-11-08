@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         setContentView(R.layout.content_main);
 
         mEditText = (EditText) findViewById(R.id.code);
+        mEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard();
+                new StopTask().execute();
+                return true;
+            }
+            return false;
+        });
+
         Button mButton = (Button) findViewById(R.id.button);
+        mButton.setOnClickListener(view -> {
+            hideKeyboard();
+            new StopTask().execute();
+        });
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -45,17 +60,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new StopAdapter(new CopyOnWriteArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
-
-        mButton.setOnClickListener(view -> {
-            InputMethodManager inputManager =
-                    (InputMethodManager) this.
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(
-                    this.getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-
-            new StopTask().execute();
-        });
     }
 
     private class StopTask extends AsyncTask<Void, Void, List<Stop>> {
@@ -99,5 +103,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         new StopTask().execute();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputManager =
+                (InputMethodManager) this.
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(
+                this.getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
