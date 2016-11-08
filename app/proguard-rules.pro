@@ -16,8 +16,10 @@
 #   public *;
 #}
 
--keep class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.widget.** {
+    public *;
+}
 
 -keep public class org.jsoup.** {
-public *;
+    public *;
 }
