@@ -5,20 +5,23 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 class Parser {
-    private final String responseString;
+    private final String url;
+    private final String code;
 
-    Parser(String responseString) {
-        this.responseString = responseString;
+    Parser(String url, String code) {
+        this.url = url;
+        this.code = code;
     }
 
-    List<Stop> parse() {
+    List<Stop> parse() throws IOException {
         List<Stop> stops = new LinkedList<>();
 
-        Document document = Jsoup.parse(responseString);
+        Document document = Jsoup.connect(url).data("CodiceFermata", code).get();
         Elements trs = document.select("tr");
         trs.remove(0);
 
