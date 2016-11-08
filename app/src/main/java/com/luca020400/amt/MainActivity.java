@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    private final String TAG = MainActivity.class.getSimpleName();
+
     private EditText mEditText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private StopAdapter mAdapter;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             inputManager.hideSoftInputFromWindow(
                     this.getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
+
             new StopTask().execute();
         });
     }
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             try {
                 stops.addAll(new Parser(url, code).parse());
             } catch (IOException e) {
+                Log.e(TAG, "", e);
                 e.printStackTrace();
             }
 
