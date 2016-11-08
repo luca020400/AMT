@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             if (stops.size() != 0) {
                 mAdapter.clear();
                 mAdapter.addAll(stops);
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.no_transiti, Toast.LENGTH_SHORT).show();
             }
 
             // Delay refreshing animation just for the show
