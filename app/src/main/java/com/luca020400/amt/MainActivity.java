@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private String mListQuery;
+    private String mCode = "";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private StopAdapter mAdapter;
     private TextView mStatusText;
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String mQuery) {
-                mListQuery = mQuery;
+                mCode = mQuery;
                 setText(mQuery, true);
                 hideKeyboard();
                 new StopTask().execute();
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             List<Stop> stops = new LinkedList<>();
 
             try {
-                stops.addAll(new Parser(url, mListQuery).parse());
+                stops.addAll(new Parser(url, mCode).parse());
             } catch (IOException e) {
                 Log.e(TAG, "", e);
             }
