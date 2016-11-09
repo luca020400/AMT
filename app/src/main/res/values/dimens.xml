@@ -8,4 +8,7 @@
     <dimen name="list_bot_padding">10dp</dimen>
     <dimen name="list_right_padding">16dp</dimen>
     <dimen name="list_left_padding">16dp</dimen>
+
+    <!-- Top padding before first item -->
+    <dimen name="recycler_view_top_padding">4dp</dimen>
 </resources>

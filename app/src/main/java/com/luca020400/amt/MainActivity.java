@@ -51,8 +51,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             new StopTask().execute();
         });
 
+        // Setup SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        // Setup refresh listener which triggers new data loading
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        // Color scheme of the refresh spinner
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.colorPrimaryDark, R.color.colorAccent);
 
@@ -60,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Setup divider for RecyclerView items
+        mRecyclerView.addItemDecoration(new Divider(this));
+        // Setup item animator
+        mRecyclerView.setItemAnimator(null);    // Disable to prevent view blinking when refreshing
+        // Setup and initialize RecyclerView adapter
         mAdapter = new StopAdapter(new CopyOnWriteArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
     }

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/button"
                 android:clipToPadding="false"
-                android:paddingBottom="10dp"
+                android:paddingTop="@dimen/recycler_view_top_padding"
                 android:scrollbars="vertical" />
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
