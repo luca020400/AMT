@@ -79,6 +79,52 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_search);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        if (mSearchView == null) {
+            return false;
+        }
+
+        mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String mQuery) {
+                mListQuery = mQuery;
+                setText(mQuery, true);
+                hideKeyboard();
+                new StopTask().execute();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String mNewText) {
+                if (!mNewText.isEmpty()) {
+                    setText(mNewText, false);
+                }
+                return true;
+            }
+        });
+        return true;
+    }
+
+    private void setText(String mText, boolean isDone) {
+        if (mText == null) {
+            mStatusText.setText(getString(R.string.status_no_results));
+        } else {
+            mStatusText.setText(String.format(getString(isDone ?
+                    R.string.status_results : R.string.status_results_hint), mText));
+        }
+    }
+
     private class StopTask extends AsyncTask<Void, Void, List<Stop>> {
         private String code;
 
@@ -118,49 +164,4 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             new Handler().postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), 300);
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu mMenu) {
-        getMenuInflater().inflate(R.menu.main, mMenu);
-        setupSearchView(mMenu.findItem(R.id.menu_search));
-        return true;
-    }
-
-    private void setupSearchView(MenuItem mItem) {
-        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mItem);
-        if (mSearchView == null) {
-            return;
-        }
-
-        mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String mQuery) {
-                mListQuery = mQuery;
-                setText(mQuery, true);
-                hideKeyboard();
-                new StopTask().execute();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String mNewText) {
-                if (!mNewText.isEmpty()) {
-                    setText(mNewText, false);
-                }
-                return true;
-            }
-        });
-
-    }
-
-    private void setText(String mText, boolean isDone) {
-        if (mText == null || mAdapter.getItemCount() == 0) {
-            mStatusText.setText(getString(R.string.status_no_results));
-        } else {
-            mStatusText.setText(String.format(getString(isDone ?
-                    R.string.status_results : R.string.status_results_hint), mText));
-        }
-    }
-
 }
