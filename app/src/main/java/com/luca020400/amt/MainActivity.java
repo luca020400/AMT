@@ -109,9 +109,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public boolean onQueryTextChange(String mNewText) {
-                if (!mNewText.isEmpty()) {
-                    setText(mNewText, false);
-                }
+                setText((mNewText.isEmpty()) ? null : mNewText, false);
                 return true;
             }
         });
@@ -128,13 +126,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private class StopTask extends AsyncTask<Void, Void, List<Stop>> {
-        private String code;
-
         @UiThread
         @Override
         protected void onPreExecute() {
             mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
-            code = mListQuery;
         }
 
         @WorkerThread
@@ -144,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             List<Stop> stops = new LinkedList<>();
 
             try {
-                stops.addAll(new Parser(url, code).parse());
+                stops.addAll(new Parser(url, mListQuery).parse());
             } catch (IOException e) {
                 Log.e(TAG, "", e);
             }
