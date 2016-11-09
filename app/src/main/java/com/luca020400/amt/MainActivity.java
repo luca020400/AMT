@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             return;
         }
 
+        mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String mQuery) {
