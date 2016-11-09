@@ -1,10 +1,10 @@
 package com.luca020400.amt;
 
 class Stop {
-    private String line;
-    private String destination;
-    private String schedule;
-    private String remainingtime;
+    private final String line;
+    private final String destination;
+    private final String schedule;
+    private final String remainingtime;
 
     Stop(String line, String destination, String schedule, String remainingtime) {
         this.line = line;

@@ -5,42 +5,42 @@
     android:layout_height="match_parent"
     tools:context="com.luca020400.amt.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/hint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/icons"
+            android:textSize="18sp" />
+    </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true">
+        android:layout_below="@id/hint_layout"
+        android:paddingTop="4dp">
 
-        <RelativeLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/codice_fermata"
-                android:imeOptions="actionDone"
-                android:inputType="number" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/code"
-                android:text="@string/transiti" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/button"
-                android:clipToPadding="false"
-                android:paddingTop="@dimen/recycler_view_top_padding"
-                android:scrollbars="vertical" />
-        </RelativeLayout>
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

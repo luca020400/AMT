@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.UiThread;
 import android.support.annotation.WorkerThread;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -26,30 +28,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private EditText mEditText;
+    private String mListQuery;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private StopAdapter mAdapter;
+    private TextView mStatusText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
-        mEditText = (EditText) findViewById(R.id.code);
-        mEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard();
-                new StopTask().execute();
-                return true;
-            }
-            return false;
-        });
-
-        Button mButton = (Button) findViewById(R.id.button);
-        mButton.setOnClickListener(view -> {
-            hideKeyboard();
-            new StopTask().execute();
-        });
+        mStatusText = (TextView) findViewById(R.id.empty_text);
 
         // Setup SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -70,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Setup and initialize RecyclerView adapter
         mAdapter = new StopAdapter(new CopyOnWriteArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
+
+        setText(null, true);
     }
 
     @Override
@@ -94,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @Override
         protected void onPreExecute() {
             mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
-            code = mEditText.getText().toString();
+            code = mListQuery;
         }
 
         @WorkerThread
@@ -126,4 +117,48 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             new Handler().postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), 300);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu mMenu) {
+        getMenuInflater().inflate(R.menu.main, mMenu);
+        setupSearchView(mMenu.findItem(R.id.menu_search));
+        return true;
+    }
+
+    private void setupSearchView(MenuItem mItem) {
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mItem);
+        if (mSearchView == null) {
+            return;
+        }
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String mQuery) {
+                mListQuery = mQuery;
+                setText(mQuery, true);
+                hideKeyboard();
+                new StopTask().execute();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String mNewText) {
+                if (!mNewText.isEmpty()) {
+                    setText(mNewText, false);
+                }
+                return true;
+            }
+        });
+
+    }
+
+    private void setText(String mText, boolean isDone) {
+        if (mText == null || mAdapter.getItemCount() == 0) {
+            mStatusText.setText(getString(R.string.status_no_results));
+        } else {
+            mStatusText.setText(String.format(getString(isDone ?
+                    R.string.status_results : R.string.status_results_hint), mText));
+        }
+    }
+
 }
