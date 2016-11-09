@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private String mCode = "";
+    private String mCode;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private StopAdapter mAdapter;
     private TextView mStatusText;

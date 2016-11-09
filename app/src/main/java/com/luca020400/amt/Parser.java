@@ -21,6 +21,8 @@ class Parser {
     List<Stop> parse() throws IOException {
         List<Stop> stops = new LinkedList<>();
 
+        if (code == null) return stops;
+
         Document document = Jsoup.connect(url).data("CodiceFermata", code).get();
         Elements trs = document.select("tr");
         trs.remove(0);
