@@ -1,4 +1,21 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.22.0'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 25
@@ -10,10 +27,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
-        jackOptions {
-            enabled true
-        }
     }
 
     compileOptions {
@@ -38,6 +51,9 @@ android {
         debug {
             debuggable true
 
+            // Disable fabric build ID generation for debug builds
+            ext.enableCrashlytics = false
+
             signingConfig signingConfigs.config
         }
 
@@ -49,6 +65,10 @@ android {
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // IMP! Enable your Crashlytics api key in a file called fabric.properties
+            // and add the value apiKey=<your key> in this project folder
+            ext.enableCrashlytics = project.file('fabric.properties').exists()
 
             signingConfig signingConfigs.config
         }
@@ -62,4 +82,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'org.jsoup:jsoup:1.10.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 }
