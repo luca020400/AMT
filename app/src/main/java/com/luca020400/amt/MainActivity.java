@@ -118,8 +118,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String mQuery) {
-                mCode = mQuery;
-                setText(mQuery, true);
+                setText(mCode = mQuery, true);
                 hideKeyboard();
                 new StopTask().execute();
                 return true;
