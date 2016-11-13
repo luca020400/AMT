@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         MenuItem item = menu.findItem(R.id.menu_search);
+        MenuItemCompat.expandActionView(item);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
         if (mSearchView == null) {
             return false;
