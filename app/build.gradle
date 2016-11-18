@@ -62,10 +62,10 @@ android {
             debuggable false
 
             zipAlignEnabled true
-            shrinkResources false
+            shrinkResources true
             minifyEnabled true
             useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             // IMP! Enable your Crashlytics api key in a file called fabric.properties
             // and add the value apiKey=<your key> in this project folder
@@ -80,8 +80,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'org.jsoup:jsoup:1.10.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
