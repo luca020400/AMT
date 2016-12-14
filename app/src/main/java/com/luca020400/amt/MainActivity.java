@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Uri data = getIntent().getData();
 
         if (data != null) {
-            setText(mCode = data.toString().split("=")[1]);
+            setText(mCode = data.getQueryParameter("CodiceFermata"));
             new StopTask().execute();
             doExpand = false;
         } else {
