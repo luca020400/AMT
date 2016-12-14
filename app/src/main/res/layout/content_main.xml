@@ -44,8 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/hint_layout"
-            android:paddingTop="4dp">
+            android:layout_below="@id/hint_layout">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
