@@ -68,9 +68,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Uri data = getIntent().getData();
 
         if (data != null) {
-            setText(mCode = data.getQueryParameter("CodiceFermata"));
-            new StopTask().execute();
-            doExpand = false;
+            mCode = data.getQueryParameter("CodiceFermata");
+            if (mCode != null && mCode.length() == 4) {
+                setText(mCode);
+                new StopTask().execute();
+                doExpand = false;
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.malformed_url, Toast.LENGTH_SHORT).show();
+                setText(null);
+            }
         } else {
             setText(null);
         }
@@ -114,10 +120,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                setText(mCode = query);
-                hideKeyboard();
-                new StopTask().execute();
-                return true;
+                mCode = query;
+                if (mCode.length() == 4) {
+                    setText(mCode);
+                    hideKeyboard();
+                    new StopTask().execute();
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.codice_corto, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
 
             @Override

@@ -6,4 +6,6 @@
     <string name="status_results">Prossimi passaggi per la fermata %1$s</string>
 
     <string name="search_action">Cerca fermata\u2026</string>
+    <string name="codice_corto">Inserisci un codice a 4 cifre</string>
+    <string name="malformed_url">URL malformato</string>
 </resources>
