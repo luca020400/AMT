@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.UiThread;
 import android.support.annotation.WorkerThread;
 import android.support.v4.view.MenuItemCompat;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = MainActivity.class.getSimpleName();
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Setup item animator
         mRecyclerView.setItemAnimator(null);    // Disable to prevent view blinking when refreshing
         // Setup and initialize RecyclerView adapter
-        mAdapter = new StopAdapter(new CopyOnWriteArrayList<>());
+        mAdapter = new StopAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         setText(null, true);
@@ -162,8 +160,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 Toast.makeText(getApplicationContext(), R.string.no_transiti, Toast.LENGTH_SHORT).show();
             }
 
-            // Delay refreshing animation just for the show
-            new Handler().postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), 300);
+            mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(false));
         }
     }
 }
