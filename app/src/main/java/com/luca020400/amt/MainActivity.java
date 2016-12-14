@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -57,13 +57,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Setup divider for RecyclerView items
         mRecyclerView.addItemDecoration(new Divider(this));
-        // Setup item animator
-        mRecyclerView.setItemAnimator(null);    // Disable to prevent view blinking when refreshing
+        // Disable item animator to prevent view blinking when refreshing
+        mRecyclerView.setItemAnimator(null);
         // Setup and initialize RecyclerView adapter
         mAdapter = new StopAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        setText(null, true);
+        setText(null);
     }
 
     @Override
@@ -103,28 +103,26 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String mQuery) {
-                setText(mCode = mQuery, true);
+            public boolean onQueryTextSubmit(String query) {
+                setText(mCode = query);
                 hideKeyboard();
                 new StopTask().execute();
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String mNewText) {
-                setText((mNewText.isEmpty()) ? null : mNewText, false);
-                return true;
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
         return true;
     }
 
-    private void setText(String mText, boolean isDone) {
+    private void setText(String mText) {
         if (mText == null) {
             mStatusText.setText(getString(R.string.status_no_results));
         } else {
-            mStatusText.setText(String.format(getString(isDone ?
-                    R.string.status_results : R.string.status_results_hint), mText));
+            mStatusText.setText(String.format(getString(R.string.status_results), mText));
         }
     }
 
@@ -139,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @Override
         protected List<Stop> doInBackground(Void... voids) {
             String url = "http://www.amt.genova.it/amt/servizi/passaggi_i.php";
-            List<Stop> stops = new LinkedList<>();
+            List<Stop> stops = new ArrayList<>();
 
             try {
                 stops.addAll(new Parser(url, mCode).parse());
             } catch (IOException e) {
-                Log.e(TAG, "", e);
+                Log.e(TAG, e.getMessage(), e);
             }
 
             return stops;

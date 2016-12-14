@@ -4,7 +4,6 @@
 
     <string name="status_no_results">Cerca i prossimi passaggi scrivendo il codice a 4 cifre della fermata</string>
     <string name="status_results">Prossimi passaggi per la fermata %1$s</string>
-    <string name="status_results_hint">Premi invio per cercare i passaggi della fermata %1$s</string>
 
     <string name="search_action">Cerca fermata\u2026</string>
 </resources>
