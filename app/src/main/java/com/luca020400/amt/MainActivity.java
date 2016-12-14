@@ -2,6 +2,7 @@ package com.luca020400.amt;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private StopAdapter mAdapter;
     private TextView mStatusText;
+    private boolean doExpand = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mAdapter = new StopAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        setText(null);
+        Uri data = getIntent().getData();
+
+        if (data != null) {
+            setText(mCode = data.toString().split("=")[1]);
+            new StopTask().execute();
+            doExpand = false;
+        } else {
+            setText(null);
+        }
     }
 
     @Override
@@ -91,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         MenuItem item = menu.findItem(R.id.menu_search);
-        MenuItemCompat.expandActionView(item);
+        if (doExpand) MenuItemCompat.expandActionView(item);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
         if (mSearchView == null) {
             return false;

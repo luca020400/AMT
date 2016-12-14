@@ -25,6 +25,19 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.amt.genova.it/amt/servizi/passaggi_i.php” -->
+                <data
+                    android:host="www.amt.genova.it"
+                    android:pathPrefix="/amt/servizi/passaggi_i.php"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
