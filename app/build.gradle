@@ -1,26 +1,19 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
         jcenter()
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.22.0'
         classpath 'me.tatarka:gradle-retrolambda:3.3.1'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.luca020400.amt"
@@ -37,14 +30,18 @@ android {
 
     signingConfigs {
         config {
-            def keystorePropertiesFile = rootProject.file("keystore.properties")
-            def keystoreProperties = new Properties()
-            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            if (rootProject.file("keystore.properties").exists()) {
+                def keystorePropertiesFile = rootProject.file("keystore.properties")
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+
+            return void
         }
     }
 
@@ -52,10 +49,11 @@ android {
         debug {
             debuggable true
 
-            // Disable fabric build ID generation for debug builds
-            ext.enableCrashlytics = false
+            if (rootProject.file("keystore.properties").exists()) {
+                signingConfig signingConfigs.config
+            }
 
-            signingConfig signingConfigs.config
+            return void
         }
 
         release {
@@ -67,11 +65,11 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            // IMP! Enable your Crashlytics api key in a file called fabric.properties
-            // and add the value apiKey=<your key> in this project folder
-            ext.enableCrashlytics = project.file('fabric.properties').exists()
+            if (rootProject.file("keystore.properties").exists()) {
+                signingConfig signingConfigs.config
+            }
 
-            signingConfig signingConfigs.config
+            return void
         }
     }
 
@@ -80,10 +78,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:recyclerview-v7:25.0.1'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'org.jsoup:jsoup:1.10.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
 }
