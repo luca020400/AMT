@@ -120,8 +120,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mCode = query;
-                if (mCode.length() == 4) {
+                if (query.length() == 4) {
+                    mCode = query;
                     setText(mCode);
                     hideKeyboard();
                     new StopTask().execute();
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @UiThread
         @Override
         protected void onPostExecute(List<Stop> stops) {
-            if (stops.size() != 0) {
+            if (!stops.isEmpty()) {
                 mAdapter.clear();
                 mAdapter.addAll(stops);
             } else {
