@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         } else if (code != null && stop == null) {
             empty_text.text = String.format(getString(R.string.status_code), code)
         } else {
-            empty_text.text = String.format(getString(R.string.status_code_stop), stop, code)
+            empty_text.text = String.format(getString(R.string.status_stop_code), stop, code)
         }
     }
 
