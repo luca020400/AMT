@@ -3,7 +3,8 @@
     <string name="no_transiti">Nessun transito</string>
 
     <string name="status_no_results">Cerca i prossimi passaggi scrivendo il codice a 4 cifre della fermata</string>
-    <string name="status_results">Prossimi passaggi per la fermata %1$s</string>
+    <string name="status_code">Prossimi passaggi per la fermata %1$s</string>
+    <string name="status_code_stop">Prossimi passaggi per la fermata %1$s - %2$s</string>
 
     <string name="search_action">Cerca fermata\u2026</string>
     <string name="codice_corto">Inserisci un codice a 4 cifre</string>

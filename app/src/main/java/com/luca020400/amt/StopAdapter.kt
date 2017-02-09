@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.stop_adapter.view.*
 
 internal class StopAdapter : RecyclerView.Adapter<StopAdapter.ViewHolder>() {
-    private val stops: MutableList<Stop> = mutableListOf()
+    private val stops: MutableList<StopData> = mutableListOf()
 
-    fun addAll(stopsList: List<Stop>) {
-        stops.addAll(stopsList)
+    fun addAll(stops: List<StopData>) {
+        this.stops.addAll(stops)
         notifyDataSetChanged()
     }
 
@@ -32,12 +32,12 @@ internal class StopAdapter : RecyclerView.Adapter<StopAdapter.ViewHolder>() {
     override fun getItemCount() = stops.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindStop(stop: Stop) {
-            with(stop) {
-                itemView.line.text = stop.line
-                itemView.eta.text = stop.remainingtime
-                itemView.destination.text = stop.destination
-                itemView.schedule.text = stop.schedule
+        fun bindStop(stopData: StopData) {
+            with(stopData) {
+                itemView.line.text = stopData.line
+                itemView.eta.text = stopData.remainingtime
+                itemView.destination.text = stopData.destination
+                itemView.schedule.text = stopData.schedule
             }
         }
     }

@@ -51,15 +51,15 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         if (data != null) {
             mCode = data.getQueryParameter("CodiceFermata")
             if (mCode != null && mCode!!.length == 4) {
-                setText(mCode)
+                setText(mCode, null)
                 StopTask().execute()
                 doExpand = false
             } else {
                 Toast.makeText(applicationContext, R.string.malformed_url, Toast.LENGTH_SHORT).show()
-                setText(null)
+                setText(null, null)
             }
         } else {
-            setText(null)
+            setText(null, null)
         }
     }
 
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.length == 4) {
                     mCode = query
-                    setText(mCode)
+                    setText(mCode, null)
                     hideKeyboard()
                     StopTask().execute()
                     return true
@@ -109,34 +109,38 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         return true
     }
 
-    private fun setText(mText: String?) {
-        if (mText == null) {
+    private fun setText(code: String?, stop: String?) {
+        if (code == null && stop == null) {
             empty_text.text = getString(R.string.status_no_results)
+        } else if (code != null && stop == null) {
+            empty_text.text = String.format(getString(R.string.status_code), code)
         } else {
-            empty_text.text = String.format(getString(R.string.status_results), mText)
+            empty_text.text = String.format(getString(R.string.status_code_stop), stop, code)
         }
     }
 
-    private inner class StopTask : AsyncTask<Void, Void, List<Stop>>() {
+    private inner class StopTask : AsyncTask<Void, Void, Stop>() {
         @UiThread
         override fun onPreExecute() {
             swipe_refresh.post { swipe_refresh.isRefreshing = true }
         }
 
         @WorkerThread
-        override fun doInBackground(vararg voids: Void): List<Stop> {
+        override fun doInBackground(vararg voids: Void): Stop {
             val url = "http://www.amt.genova.it/amt/servizi/passaggi_i.php"
             return Parser(url, mCode!!).parse()
         }
 
         @UiThread
-        override fun onPostExecute(stops: List<Stop>) {
-            if (!stops.isEmpty()) {
+        override fun onPostExecute(stop: Stop) {
+            if (!stop.stops.isEmpty()) {
                 mAdapter.clear()
-                mAdapter.addAll(stops)
+                mAdapter.addAll(stop.stops)
             } else {
                 Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
             }
+
+            setText(mCode, stop.name)
 
             swipe_refresh.post { swipe_refresh.isRefreshing = false }
         }
