@@ -18,8 +18,9 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+    private val mAdapter = StopAdapter()
+
     private var mCode: String? = null
-    private var mAdapter: StopAdapter? = null
     private var doExpand = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         // Disable item animator to prevent view blinking when refreshing
         recycler_view.itemAnimator = null
         // Setup and initialize RecyclerView adapter
-        mAdapter = StopAdapter()
         recycler_view.adapter = mAdapter
 
         val data = intent.data
@@ -132,8 +132,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         @UiThread
         override fun onPostExecute(stops: List<Stop>) {
             if (!stops.isEmpty()) {
-                mAdapter!!.clear()
-                mAdapter!!.addAll(stops)
+                mAdapter.clear()
+                mAdapter.addAll(stops)
             } else {
                 Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
             }
