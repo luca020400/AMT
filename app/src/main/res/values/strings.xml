@@ -9,4 +9,5 @@
     <string name="search_action">Cerca fermata\u2026</string>
     <string name="codice_corto">Inserisci un codice a 4 cifre</string>
     <string name="malformed_url">URL malformato</string>
+    <string name="invalid_code">Il codice della fermata non è valido</string>
 </resources>

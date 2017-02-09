@@ -49,8 +49,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         val data = intent.data
 
         if (data != null) {
-            mCode = data.getQueryParameter("CodiceFermata")
-            if (mCode != null && mCode!!.length == 4) {
+            val code = data.getQueryParameter("CodiceFermata")
+            if (is_code_valid(code)) {
+                mCode = code
                 setText(mCode, null)
                 StopTask().execute()
                 doExpand = false
@@ -64,7 +65,16 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        StopTask().execute()
+        if (is_code_valid(mCode)) {
+            StopTask().execute()
+        } else {
+            swipe_refresh.post { swipe_refresh.isRefreshing = false }
+            Toast.makeText(applicationContext, R.string.invalid_code, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun is_code_valid(code: String?): Boolean {
+        return code != null && code.length == 4
     }
 
     private fun hideKeyboard() {
@@ -89,9 +99,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         mSearchView.maxWidth = Integer.MAX_VALUE
 
         mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.length == 4) {
-                    mCode = query
+            override fun onQueryTextSubmit(code: String): Boolean {
+                if (is_code_valid(code)) {
+                    mCode = code
                     setText(mCode, null)
                     hideKeyboard()
                     StopTask().execute()
