@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             val code = data.getQueryParameter("CodiceFermata")
             if (is_code_valid(code)) {
                 mCode = code
-                setText(mCode, null)
                 StopTask().execute()
                 doExpand = false
             } else {
@@ -79,7 +78,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         val code = intent.getStringExtra(SearchManager.QUERY)
         if (is_code_valid(code)) {
             mCode = code
-            setText(mCode, null)
             StopTask().execute()
         }
     }
@@ -138,8 +136,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private fun setText(code: String?, stop: String?) {
         if (code == null && stop == null) {
             empty_text.text = getString(R.string.status_no_results)
-        } else if (code != null && stop == null) {
-            empty_text.text = String.format(getString(R.string.status_code), code)
         } else {
             empty_text.text = String.format(getString(R.string.status_stop_code), stop, code)
         }
