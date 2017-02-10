@@ -23,5 +23,3 @@
 -keep public class org.jsoup.** {
     public *;
 }
-
--dontwarn java.lang.invoke.*

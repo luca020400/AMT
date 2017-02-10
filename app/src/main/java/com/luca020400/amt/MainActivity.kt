@@ -88,11 +88,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.menu_search)
         if (doExpand) MenuItemCompat.expandActionView(item)
         val mSearchView = MenuItemCompat.getActionView(item) as SearchView
