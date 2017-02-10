@@ -21,7 +21,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
-
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private val mAdapter = StopAdapter()
 
@@ -82,7 +81,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             mCode = code
             setText(mCode, null)
             StopTask().execute()
-            doExpand = false
         }
     }
 
