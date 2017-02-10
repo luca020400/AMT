@@ -17,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.telephony.TelephonyManager
 import android.view.Menu
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
@@ -146,9 +147,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
 
-    fun buy_ticket() {
+    fun buy_ticket(v: View) {
         if (hasPhoneAbility()) {
-            val builder = AlertDialog.Builder(this@MainActivity)
+            val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.buy_ticket_title)
                     .setMessage(R.string.buy_ticket_summary)
 
