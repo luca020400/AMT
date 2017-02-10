@@ -2,16 +2,19 @@ package com.luca020400.amt
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.annotation.WorkerThread
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -19,6 +22,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private val mAdapter = StopAdapter()
+    private val telephonyManager by lazy { applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
 
     private var mCode: String? = null
     private var doExpand = true
@@ -27,8 +31,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_main)
 
-        val mToolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(mToolbar)
+        setSupportActionBar(toolbar)
 
         // Setup refresh listener which triggers new data loading
         swipe_refresh.setOnRefreshListener(this)
@@ -126,6 +129,30 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             empty_text.text = String.format(getString(R.string.status_code), code)
         } else {
             empty_text.text = String.format(getString(R.string.status_stop_code), stop, code)
+        }
+    }
+
+    private fun hasPhoneAbility(): Boolean {
+        return telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_NONE
+    }
+
+    fun buy_ticket() {
+        if (hasPhoneAbility()) {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle(R.string.buy_ticket_title)
+                    .setMessage(R.string.buy_ticket_summary)
+
+            // Add the buttons
+            builder.setPositiveButton(android.R.string.ok, { dialog, id ->
+                val uri = Uri.parse("smsto:4850209")
+                val intent = Intent(Intent.ACTION_SENDTO, uri)
+                intent.putExtra("sms_body", "AMT")
+                startActivity(intent)
+            })
+
+            builder.setNegativeButton(android.R.string.cancel, { dialog, id -> })
+
+            builder.create().show()
         }
     }
 
