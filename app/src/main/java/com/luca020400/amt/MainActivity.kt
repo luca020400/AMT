@@ -21,7 +21,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
+        SearchView.OnQueryTextListener {
     private val mAdapter = StopAdapter()
 
     private val telephonyManager by lazy {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
     }
 
     private val suggestions by lazy {
-        SearchRecentSuggestions(this@MainActivity,
+        SearchRecentSuggestions(this,
                 StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
     }
 
