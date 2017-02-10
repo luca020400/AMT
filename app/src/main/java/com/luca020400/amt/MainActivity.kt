@@ -21,7 +21,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
     private val mAdapter = StopAdapter()
 
     private val telephonyManager by lazy {
@@ -111,26 +111,26 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         mSearchView.maxWidth = Integer.MAX_VALUE
+        mSearchView.setOnQueryTextListener(this)
 
-        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(code: String): Boolean {
-                if (is_code_valid(code)) {
-                    mCode = code
-                    setText(mCode, null)
-                    hideKeyboard()
-                    StopTask().execute()
-                    return true
-                } else {
-                    Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
-                    return false
-                }
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
         return true
+    }
+
+    override fun onQueryTextChange(code: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextSubmit(code: String?): Boolean {
+        if (is_code_valid(code)) {
+            mCode = code
+            setText(mCode, null)
+            hideKeyboard()
+            StopTask().execute()
+            return true
+        } else {
+            Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
+            return false
+        }
     }
 
     private fun setText(code: String?, stop: String?) {
