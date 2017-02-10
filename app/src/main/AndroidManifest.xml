@@ -43,5 +43,10 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <provider
+            android:name=".StopSuggestionProvider"
+            android:authorities="com.luca020400.amt.StopSuggestionProvider"
+            android:exported="false" />
     </application>
 </manifest>

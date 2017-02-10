@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.support.annotation.UiThread
 import android.support.annotation.WorkerThread
 import android.support.v4.view.MenuItemCompat
@@ -20,9 +21,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
+
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private val mAdapter = StopAdapter()
-    private val telephonyManager by lazy { applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
+
+    private val telephonyManager by lazy {
+        applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    }
+
+    private val suggestions by lazy {
+        SearchRecentSuggestions(this@MainActivity,
+                StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
+    }
 
     private var mCode: String? = null
     private var doExpand = true
@@ -50,7 +60,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         recycler_view.adapter = mAdapter
 
         val data = intent.data
-
         if (data != null) {
             val code = data.getQueryParameter("CodiceFermata")
             if (is_code_valid(code)) {
@@ -64,6 +73,16 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
         } else {
             setText(null, null)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        val code = intent.getStringExtra(SearchManager.QUERY)
+        if (is_code_valid(code)) {
+            mCode = code
+            setText(mCode, null)
+            StopTask().execute()
+            doExpand = false
         }
     }
 
@@ -167,13 +186,14 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         @UiThread
         override fun onPostExecute(stop: Stop) {
             if (!stop.stops.isEmpty()) {
+                setText(mCode, stop.name)
                 mAdapter.clear()
                 mAdapter.addAll(stop.stops)
+
+                suggestions.saveRecentQuery(mCode, stop.name)
             } else {
                 Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
             }
-
-            setText(mCode, stop.name)
 
             swipe_refresh.post { swipe_refresh.isRefreshing = false }
         }
