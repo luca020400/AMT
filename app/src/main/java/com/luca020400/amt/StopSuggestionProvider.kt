@@ -2,7 +2,7 @@ package com.luca020400.amt
 
 import android.content.SearchRecentSuggestionsProvider
 
-class StopSuggestionProvider : SearchRecentSuggestionsProvider() {
+internal class StopSuggestionProvider : SearchRecentSuggestionsProvider() {
     init {
         setupSuggestions(AUTHORITY, MODE)
     }
