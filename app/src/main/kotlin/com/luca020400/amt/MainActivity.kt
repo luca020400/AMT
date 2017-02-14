@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun setText(code: String?, stop: String?) {
-        if (code == null && stop == null) {
+        if (code == null || stop == null) {
             empty_text.text = getString(R.string.status_no_results)
         } else {
             empty_text.text = String.format(getString(R.string.status_stop_code), stop, code)
