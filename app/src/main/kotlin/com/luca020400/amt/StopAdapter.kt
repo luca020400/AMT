@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.stop_adapter.view.*
 
-internal class StopAdapter(var stops: MutableList<StopData>) : RecyclerView.Adapter<StopAdapter.ViewHolder>() {
-    fun addAll(stops: List<StopData>) {
+internal class StopAdapter(var stops: ArrayList<StopData>) : RecyclerView.Adapter<StopAdapter.ViewHolder>() {
+    fun addAll(stops: ArrayList<StopData>) {
         this.stops.addAll(stops)
         notifyDataSetChanged()
     }

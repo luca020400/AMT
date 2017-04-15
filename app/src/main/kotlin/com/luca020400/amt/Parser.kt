@@ -6,7 +6,7 @@ internal class Parser(private val url: String, private val code: String) {
 
     fun parse(): Stop {
         val name: String
-        val stops: MutableList<StopData> = mutableListOf()
+        val stops: ArrayList<StopData> = arrayListOf()
 
         val document = Jsoup.connect(url).data("CodiceFermata", code).get()
 

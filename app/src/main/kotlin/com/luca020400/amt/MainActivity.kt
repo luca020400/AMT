@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
-    private val mAdapter = StopAdapter(mutableListOf<StopData>())
+    private val mAdapter = StopAdapter(arrayListOf<StopData>())
 
     private val telephonyManager by lazy {
         applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
