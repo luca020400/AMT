@@ -152,18 +152,15 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.buy_ticket_title)
                     .setMessage(R.string.buy_ticket_summary)
-
-            // Add the buttons
-            builder.setPositiveButton(android.R.string.ok, { _, _ ->
-                val uri = Uri.parse("smsto:4850209")
-                val intent = Intent(Intent.ACTION_SENDTO, uri)
-                intent.putExtra("sms_body", "AMT")
-                startActivity(intent)
-            })
-
-            builder.setNegativeButton(android.R.string.cancel, { _, _ -> })
-
-            builder.create().show()
+                    .setPositiveButton(android.R.string.ok, { _, _ ->
+                        val uri = Uri.parse("smsto:4850209")
+                        val intent = Intent(Intent.ACTION_SENDTO, uri)
+                        intent.putExtra("sms_body", "AMT")
+                        startActivity(intent)
+                    })
+                    .setNegativeButton(android.R.string.cancel, { _, _ -> })
+                    .create()
+                    .show()
         }
     }
 
