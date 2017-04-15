@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         @UiThread
         override fun onPostExecute(stop: Stop) {
-            if (!stop.stops.isEmpty()) {
+            if (!stop.name.isNullOrBlank() && !stop.stops.isEmpty()) {
                 setText(mCode, stop.name)
                 mAdapter.clear()
                 mAdapter.addAll(stop.stops)
