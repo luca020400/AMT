@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     private val mAdapter = StopAdapter(arrayListOf<StopData>())
 
     private val telephonyManager by lazy {
-        applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    }
+
+    private val inputManager by lazy {
+        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     private val suggestions by lazy {
@@ -98,7 +102,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun hideKeyboard() {
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(currentFocus.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS)
     }
