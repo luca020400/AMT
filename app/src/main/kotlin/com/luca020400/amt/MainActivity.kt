@@ -13,6 +13,7 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.telephony.TelephonyManager
@@ -22,6 +23,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
+
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
@@ -59,9 +61,12 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         // Setup RecyclerView
         recycler_view.setHasFixedSize(true)
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        recycler_view.layoutManager = layoutManager
         // Setup divider for RecyclerView items
-        recycler_view.addItemDecoration(Divider(this))
+        val dividerItemDecoration = DividerItemDecoration(recycler_view.context,
+                layoutManager.orientation)
+        recycler_view.addItemDecoration(dividerItemDecoration)
         // Disable item animator to prevent view blinking when refreshing
         recycler_view.itemAnimator = null
         // Setup and initialize RecyclerView adapter
