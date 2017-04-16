@@ -22,7 +22,6 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
-
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
     private val stopAdapter by lazy {
@@ -74,7 +73,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 StopTask().execute()
                 doExpand = false
             } else {
-                Toast.makeText(applicationContext, R.string.malformed_url, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.malformed_url,
+                        Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 stopAdapter.addAll(stop.stops)
 
                 suggestions.saveRecentQuery(stop.code, stop.name)
-                empty_text.text = getString(R.string.status_stop_code, stop.name, stop.code)
+                empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
             } else {
                 Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
                         Toast.LENGTH_SHORT).show()
