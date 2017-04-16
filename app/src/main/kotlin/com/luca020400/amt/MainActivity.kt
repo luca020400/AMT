@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 stopAdapter.addAll(stop.stops)
 
                 suggestions.saveRecentQuery(stop.code, stop.name)
-                empty_text.text = String.format(getString(R.string.status_stop_code), stop.name, stop.code)
+                empty_text.text = getString(R.string.status_stop_code, stop.name, stop.code)
             } else {
                 Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
             }
