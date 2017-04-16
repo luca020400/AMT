@@ -20,7 +20,6 @@ import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -33,10 +32,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     private val telephonyManager by lazy {
         getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    }
-
-    private val inputManager by lazy {
-        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     private val suggestions by lazy {
@@ -109,11 +104,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return code != null && code.length == 4
     }
 
-    private fun hideKeyboard() {
-        inputManager.hideSoftInputFromWindow(currentFocus.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
 
@@ -123,9 +113,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        mSearchView.imeOptions = mSearchView.imeOptions or EditorInfo.IME_FLAG_NO_EXTRACT_UI
         mSearchView.maxWidth = Integer.MAX_VALUE
         mSearchView.setOnQueryTextListener(this)
-        mSearchView.imeOptions = mSearchView.imeOptions or EditorInfo.IME_FLAG_NO_EXTRACT_UI
 
         return true
     }
@@ -137,14 +127,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onQueryTextSubmit(code: String?): Boolean {
         if (is_code_valid(code)) {
             mCode = code
-            setText(mCode, null)
-            hideKeyboard()
             StopTask().execute()
-            return true
         } else {
             Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
-            return false
         }
+        return false
     }
 
     private fun setText(code: String?, stop: String?) {
