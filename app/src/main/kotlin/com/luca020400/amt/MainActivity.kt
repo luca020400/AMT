@@ -25,7 +25,9 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
-    private val mAdapter = StopAdapter(arrayListOf<StopData>())
+    private val stopAdapter by lazy {
+        StopAdapter(arrayListOf<StopData>())
+    }
 
     private val telephonyManager by lazy {
         getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         // Disable item animator to prevent view blinking when refreshing
         recycler_view.itemAnimator = null
         // Setup and initialize RecyclerView adapter
-        recycler_view.adapter = mAdapter
+        recycler_view.adapter = stopAdapter
 
         val data = intent.data
         if (data != null) {
@@ -185,8 +187,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         override fun onPostExecute(stop: Stop) {
             if (!stop.name.isNullOrBlank() && !stop.stops.isEmpty()) {
                 setText(mCode, stop.name)
-                mAdapter.clear()
-                mAdapter.addAll(stop.stops)
+                stopAdapter.clear()
+                stopAdapter.addAll(stop.stops)
 
                 suggestions.saveRecentQuery(mCode, stop.name)
             } else {
