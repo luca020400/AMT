@@ -33,6 +33,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="8dp"
+                android:text="@string/status_no_results"
                 android:textAlignment="center"
                 android:textColor="@color/icons"
                 android:textSize="18sp" />

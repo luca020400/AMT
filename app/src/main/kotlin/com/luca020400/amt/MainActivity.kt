@@ -76,10 +76,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 doExpand = false
             } else {
                 Toast.makeText(applicationContext, R.string.malformed_url, Toast.LENGTH_SHORT).show()
-                setText(null, null)
             }
-        } else {
-            setText(null, null)
         }
     }
 
@@ -134,14 +131,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return false
     }
 
-    private fun setText(code: String?, stop: String?) {
-        if (code == null || stop == null) {
-            empty_text.text = getString(R.string.status_no_results)
-        } else {
-            empty_text.text = String.format(getString(R.string.status_stop_code), stop, code)
-        }
-    }
-
     private fun hasPhoneAbility(): Boolean {
         return telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
@@ -178,11 +167,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         @UiThread
         override fun onPostExecute(stop: Stop) {
             if (!stop.name.isNullOrBlank() && !stop.stops.isEmpty()) {
-                setText(mCode, stop.name)
                 stopAdapter.clear()
                 stopAdapter.addAll(stop.stops)
 
-                suggestions.saveRecentQuery(mCode, stop.name)
+                suggestions.saveRecentQuery(stop.code, stop.name)
+                empty_text.text = String.format(getString(R.string.status_stop_code), stop.name, stop.code)
             } else {
                 Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
             }
