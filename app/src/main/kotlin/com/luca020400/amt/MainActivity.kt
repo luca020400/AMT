@@ -171,7 +171,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 suggestions.saveRecentQuery(stop.code, stop.name)
                 empty_text.text = getString(R.string.status_stop_code, stop.name, stop.code)
             } else {
-                Toast.makeText(applicationContext, R.string.no_transiti, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
+                        Toast.LENGTH_SHORT).show()
             }
 
             swipe_refresh.post { swipe_refresh.isRefreshing = false }
