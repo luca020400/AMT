@@ -32,7 +32,7 @@ internal class StopAdapter(var stops: ArrayList<StopData>) : RecyclerView.Adapte
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindStop(stopData: StopData) {
             itemView.line.text = stopData.line
-            itemView.eta.text = stopData.remainingtime
+            itemView.eta.text = stopData.remaining_time
             itemView.destination.text = stopData.destination
             itemView.schedule.text = stopData.schedule
         }
