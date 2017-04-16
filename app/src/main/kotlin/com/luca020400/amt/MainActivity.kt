@@ -19,7 +19,6 @@ import android.support.v7.widget.SearchView
 import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -110,7 +109,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        mSearchView.imeOptions = mSearchView.imeOptions or EditorInfo.IME_FLAG_NO_EXTRACT_UI
         mSearchView.maxWidth = Integer.MAX_VALUE
         mSearchView.setOnQueryTextListener(this)
 
