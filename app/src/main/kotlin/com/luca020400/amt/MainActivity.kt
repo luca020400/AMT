@@ -170,8 +170,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 suggestions.saveRecentQuery(stop.code, stop.name)
                 empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
                 empty_text.setOnClickListener {
-                    startActivity(Intent.createChooser(Utils()
-                            .toLink(stop.code, applicationContext), getString(R.string.share_with)))
+                    startActivity(Intent.createChooser(
+                            Utils().toLink(stop.code, getString(R.string.share_subject)),
+                            getString(R.string.share_with))
+                    )
                 }
             } else {
                 Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
