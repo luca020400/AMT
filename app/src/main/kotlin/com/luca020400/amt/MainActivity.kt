@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun is_code_valid(code: String?): Boolean {
-        return code != null && code.length == 4
+        return code != null && code.length == 4 && code.toIntOrNull() != null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
