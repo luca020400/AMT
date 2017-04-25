@@ -12,4 +12,6 @@
 
     <string name="buy_ticket_title">Compra il biglietto</string>
     <string name="buy_ticket_summary">Mandando un SMS al costo di €1,50 sarai in grado di acquistare un biglietto valido per 110 minuti dal momento del recapito del SMS di conferma. Sei sicuro di voler continuare?</string>
+    <string name="share_with">Condividi la fermata con …</string>
+    <string name="share_subject">Sono qui!</string>
 </resources>
