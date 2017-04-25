@@ -2,7 +2,7 @@ package com.luca020400.amt
 
 import android.content.Intent
 
-class Utils {
+internal class Utils {
     fun toLink(code: String, here: String): Intent {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
