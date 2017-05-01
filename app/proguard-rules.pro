@@ -16,8 +16,9 @@
 #   public *;
 #}
 
--keep public class android.support.v7.widget.** {
-    public *;
+-keep public class android.support.v7.widget.SearchView {
+   public <init>(android.content.Context);
+   public <init>(android.content.Context, android.util.AttributeSet);
 }
 
 -keeppackagenames org.jsoup.nodes
