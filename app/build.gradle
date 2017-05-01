@@ -15,7 +15,7 @@ android {
     }
 
     signingConfigs {
-        config {
+        luca020400 {
             if (rootProject.file("keystore.properties").exists()) {
                 def keystorePropertiesFile = rootProject.file("keystore.properties")
                 def keystoreProperties = new Properties()
@@ -26,8 +26,6 @@ android {
                 storeFile file(keystoreProperties['storeFile'])
                 storePassword keystoreProperties['storePassword']
             }
-
-            return void
         }
     }
 
@@ -35,11 +33,7 @@ android {
         debug {
             debuggable true
 
-            if (rootProject.file("keystore.properties").exists()) {
-                signingConfig signingConfigs.config
-            }
-
-            return void
+            signingConfig signingConfigs.luca020400
         }
 
         release {
@@ -51,19 +45,13 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            if (rootProject.file("keystore.properties").exists()) {
-                signingConfig signingConfigs.config
-            }
-
-            return void
+            signingConfig signingConfigs.luca020400
         }
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
-    return void
 }
 
 dependencies {
