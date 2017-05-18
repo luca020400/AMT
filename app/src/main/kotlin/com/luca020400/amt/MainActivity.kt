@@ -3,7 +3,6 @@ package com.luca020400.amt
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
@@ -11,14 +10,11 @@ import android.support.annotation.UiThread
 import android.support.annotation.WorkerThread
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.telephony.TelephonyManager
 import android.view.Menu
-import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -26,10 +22,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
     private val stopAdapter by lazy {
         StopAdapter(arrayListOf<StopData>())
-    }
-
-    private val telephonyManager by lazy {
-        getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }
 
     private val suggestions by lazy {
@@ -127,27 +119,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
         }
         return false
-    }
-
-    private fun hasPhoneAbility(): Boolean {
-        return telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_NONE
-    }
-
-    fun buy_ticket(v: View) {
-        if (hasPhoneAbility()) {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(R.string.buy_ticket_title)
-                    .setMessage(R.string.buy_ticket_summary)
-                    .setPositiveButton(android.R.string.ok, { _, _ ->
-                        val uri = Uri.parse("smsto:4850209")
-                        val intent = Intent(Intent.ACTION_SENDTO, uri)
-                        intent.putExtra("sms_body", "AMT")
-                        startActivity(intent)
-                    })
-                    .setNegativeButton(android.R.string.cancel, { _, _ -> })
-                    .create()
-                    .show()
-        }
     }
 
     private inner class StopTask : AsyncTask<Void, Void, Stop>() {
