@@ -12,6 +12,8 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     compileOptions {
@@ -45,7 +47,7 @@ android {
             debuggable false
 
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false //true
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
