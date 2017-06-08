@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.SearchRecentSuggestions
 import android.support.annotation.UiThread
 import android.support.annotation.WorkerThread
-import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -96,8 +95,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         menuInflater.inflate(R.menu.main, menu)
 
         val item = menu.findItem(R.id.menu_search)
-        if (doExpand) MenuItemCompat.expandActionView(item)
-        val mSearchView = MenuItemCompat.getActionView(item) as SearchView
+        if (doExpand) item.expandActionView()
+        val mSearchView = item.actionView as SearchView
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
