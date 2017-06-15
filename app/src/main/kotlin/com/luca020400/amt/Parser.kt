@@ -16,9 +16,9 @@ internal class Parser(private val url: String, private val code: String) {
         val trs = document.select("tr")
         trs.removeAt(0)
         trs
-            .map { it.select("td") }
-            .filter { it.size == 4 }
-            .mapTo(stops) { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) }
+                .map { it.select("td") }
+                .filter { it.size == 4 }
+                .mapTo(stops) { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) }
 
         return Stop(code, name, stops)
     }

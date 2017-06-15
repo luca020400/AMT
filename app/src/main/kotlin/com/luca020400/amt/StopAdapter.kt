@@ -12,11 +12,6 @@ internal class StopAdapter(var stops: ArrayList<StopData>) : RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    fun clear() {
-        stops.clear()
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context),
                 R.layout.stop_adapter, parent, false)
