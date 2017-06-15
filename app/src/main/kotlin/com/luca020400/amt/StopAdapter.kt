@@ -9,9 +9,11 @@ import android.view.ViewGroup
 internal class StopAdapter(var stops: ArrayList<StopData>)
     : RecyclerView.Adapter<StopViewHolder>() {
     fun addAll(stops: ArrayList<StopData>) {
-        this.stops.clear()
-        this.stops.addAll(stops)
-        notifyDataSetChanged()
+        if (this.stops != stops) {
+            this.stops.clear()
+            this.stops.addAll(stops)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StopViewHolder {

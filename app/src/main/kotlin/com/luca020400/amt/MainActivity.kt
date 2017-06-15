@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 layoutManager.orientation)
         recycler_view.addItemDecoration(dividerItemDecoration)
         // Disable item animator to prevent view blinking when refreshing
-        recycler_view.itemAnimator = null
+        recycler_view.itemAnimator.changeDuration = 0
         // Setup and initialize RecyclerView adapter
         recycler_view.adapter = stopAdapter
 
