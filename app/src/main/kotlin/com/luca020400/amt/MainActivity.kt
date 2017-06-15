@@ -18,14 +18,14 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
-        SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener {
     private val stopAdapter by lazy {
         StopAdapter(arrayListOf<StopData>())
     }
 
     private val suggestions by lazy {
         SearchRecentSuggestions(this,
-                StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
+            StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
     }
 
     private var mCode: String? = null
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         swipe_refresh.setOnRefreshListener(this)
         // Color scheme of the refresh spinner
         swipe_refresh.setColorSchemeResources(
-                R.color.colorPrimaryDark, R.color.colorAccent)
+            R.color.colorPrimaryDark, R.color.colorAccent)
 
         // Setup RecyclerView
         recycler_view.setHasFixedSize(true)
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         recycler_view.layoutManager = layoutManager
         // Setup divider for RecyclerView items
         val dividerItemDecoration = DividerItemDecoration(recycler_view.context,
-                layoutManager.orientation)
+            layoutManager.orientation)
         recycler_view.addItemDecoration(dividerItemDecoration)
         // Disable item animator to prevent view blinking when refreshing
         recycler_view.itemAnimator = null
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 doExpand = false
             } else {
                 Toast.makeText(applicationContext, R.string.malformed_url,
-                        Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -141,13 +141,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
                 empty_text.setOnClickListener {
                     startActivity(Intent.createChooser(
-                            Utils().toLink(stop.code, getString(R.string.share_subject)),
-                            getString(R.string.share_with))
+                        Utils().toLink(stop.code, getString(R.string.share_subject)),
+                        getString(R.string.share_with))
                     )
                 }
             } else {
                 Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
-                        Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT).show()
             }
 
             swipe_refresh.post { swipe_refresh.isRefreshing = false }

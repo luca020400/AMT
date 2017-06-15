@@ -19,7 +19,7 @@ internal class StopAdapter(var stops: ArrayList<StopData>) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.stop_adapter, parent, false)
+            .inflate(R.layout.stop_adapter, parent, false)
         return ViewHolder(v)
     }
 
