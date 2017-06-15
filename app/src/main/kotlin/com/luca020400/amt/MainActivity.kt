@@ -60,8 +60,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (data != null) {
             val code = data.getQueryParameter("CodiceFermata")
             if (is_code_valid(code)) {
-                mCode = code
-                StopTask().execute()
+                StopTask().execute(code)
                 doExpand = false
             } else {
                 Toast.makeText(applicationContext, R.string.malformed_url,
@@ -73,14 +72,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onNewIntent(intent: Intent) {
         val code = intent.getStringExtra(SearchManager.QUERY)
         if (is_code_valid(code)) {
-            mCode = code
-            StopTask().execute()
+            StopTask().execute(code)
         }
     }
 
     override fun onRefresh() {
         if (is_code_valid(mCode)) {
-            StopTask().execute()
+            StopTask().execute(mCode)
         } else {
             swipe_refresh.post { swipe_refresh.isRefreshing = false }
             Toast.makeText(applicationContext, R.string.invalid_code, Toast.LENGTH_SHORT).show()
@@ -112,23 +110,22 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onQueryTextSubmit(code: String?): Boolean {
         if (is_code_valid(code)) {
-            mCode = code
-            StopTask().execute()
+            StopTask().execute(code)
         } else {
             Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
         }
         return false
     }
 
-    private inner class StopTask : AsyncTask<Void, Void, Stop>() {
+    private inner class StopTask : AsyncTask<String, Void, Stop>() {
         @UiThread
         override fun onPreExecute() {
             swipe_refresh.post { swipe_refresh.isRefreshing = true }
         }
 
         @WorkerThread
-        override fun doInBackground(vararg voids: Void): Stop {
-            return Parser(Constants.url, mCode!!).parse()
+        override fun doInBackground(vararg strings: String): Stop {
+            return Parser(Constants.url, strings[0]).parse()
         }
 
         @UiThread
@@ -144,6 +141,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                             getString(R.string.share_with))
                     )
                 }
+
+                mCode = stop.code
             } else {
                 Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
                         Toast.LENGTH_SHORT).show()
