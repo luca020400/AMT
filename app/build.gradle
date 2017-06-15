@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -14,6 +15,10 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     compileOptions {
@@ -67,6 +72,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.0-beta2'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jsoup:jsoup:1.10.2'
+
+    kapt "com.android.databinding:compiler:3.0.0-alpha3"
 }
 
 repositories {
