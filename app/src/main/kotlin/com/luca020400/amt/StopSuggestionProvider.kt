@@ -9,6 +9,6 @@ internal class StopSuggestionProvider : SearchRecentSuggestionsProvider() {
 
     companion object {
         val AUTHORITY = "com.luca020400.amt.StopSuggestionProvider"
-        val MODE = SearchRecentSuggestionsProvider.DATABASE_MODE_QUERIES or SearchRecentSuggestionsProvider.DATABASE_MODE_2LINES
+        val MODE = DATABASE_MODE_QUERIES or DATABASE_MODE_2LINES
     }
 }

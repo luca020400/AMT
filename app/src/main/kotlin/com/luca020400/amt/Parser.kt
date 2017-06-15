@@ -2,11 +2,11 @@ package com.luca020400.amt
 
 import org.jsoup.Jsoup
 
-internal class Parser(private val url: String, private val code: String) {
+internal class Parser(val url: String, val code: String) {
 
     fun parse(): Stop {
         val name: String
-        val stops: ArrayList<StopData> = arrayListOf()
+        val stops = arrayListOf<StopData>()
 
         val document = Jsoup.connect(url).data("CodiceFermata", code).get()
 

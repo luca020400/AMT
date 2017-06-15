@@ -1,3 +1,7 @@
 package com.luca020400.amt
 
-internal data class Stop(val code: String, val name: String, val stops: ArrayList<StopData>)
+internal data class Stop(
+        val code: String,
+        val name: String,
+        val stops: ArrayList<StopData>
+)
