@@ -16,12 +16,7 @@
 #   public *;
 #}
 
--keep public class android.support.v7.** {
-   public <init>(android.content.Context);
-   public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keep public class android.support.v4.** {
+-keep public class android.support.v7.widget.SearchView {
    public <init>(android.content.Context);
    public <init>(android.content.Context, android.util.AttributeSet);
 }
