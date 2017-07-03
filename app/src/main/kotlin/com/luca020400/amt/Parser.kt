@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document
 internal class Parser(val url: String, val code: String) {
     private val TAG = this.javaClass.simpleName
 
-    suspend fun parse(): Stop {
+    fun parse(): Stop {
         val name: String
         val stops = arrayListOf<StopData>()
         val document: Document?

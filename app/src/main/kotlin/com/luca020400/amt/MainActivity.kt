@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return false
     }
 
-    fun downloadStops(code: String) = async(UI) {
+    fun downloadStops(code: String) = launch(UI) {
         swipe_refresh.post { swipe_refresh.isRefreshing = true }
 
         val stop = async(CommonPool) { Parser(Constants.url, code).parse() }.await()
