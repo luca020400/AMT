@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     private var mCode = ""
     private var mShouldExpand = true
 
-    fun String.isValidCode() = this.length == 4 && this.toIntOrNull() != null
+    fun String.isValidCode() = this.matches("\\d{4}".toRegex())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
