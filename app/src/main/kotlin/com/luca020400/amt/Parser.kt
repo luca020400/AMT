@@ -14,7 +14,7 @@ internal class Parser(private val url: String, private val code: String) {
 
         try {
             document = Jsoup.connect(url).data("CodiceFermata", code).get()
-                    .takeIf { it -> it.hasText() }
+                    .takeIf { it.hasText() }
             if (document == null) {
                 throw Throwable("Document is empty")
             }
