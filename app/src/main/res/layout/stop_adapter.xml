@@ -24,12 +24,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/eta"
+            android:layout_toStartOf="@id/eta"
             android:text="@{stop.line}"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/eta"
+            android:id="@id/eta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -45,11 +47,13 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@id/line"
+            android:layout_toLeftOf="@+id/schedule"
+            android:layout_toStartOf="@id/schedule"
             android:text="@{stop.destination}"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/schedule"
+            android:id="@id/schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
