@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
                 mCode = stop.code
             } else {
-                empty_text.isClickable = false
+                empty_text.isClickable = empty_text.hasOnClickListeners()
                 Toast.makeText(this@MainActivity, getString(R.string.no_transiti, stop.code),
                         Toast.LENGTH_SHORT).show()
             }

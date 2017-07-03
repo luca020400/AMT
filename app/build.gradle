@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.luca020400.amt"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
