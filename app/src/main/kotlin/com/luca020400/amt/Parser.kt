@@ -4,7 +4,7 @@ import android.util.Log
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-internal class Parser(val url: String, val code: String) {
+internal class Parser(private val url: String, private val code: String) {
     private val TAG = this.javaClass.simpleName
 
     fun parse(): Stop {
