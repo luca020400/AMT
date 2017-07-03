@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-internal class StopAdapter(var stops: ArrayList<StopData>)
+internal class StopAdapter(private val stops: ArrayList<StopData>)
     : RecyclerView.Adapter<StopViewHolder>() {
     fun addAll(stops: ArrayList<StopData>) {
         if (this.stops != stops) {
