@@ -56,9 +56,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         // Setup and initialize RecyclerView adapter
         recycler_view.adapter = mStopAdapter
 
-        val data = intent.data
-        if (data != null) {
-            val code = data.getQueryParameter("CodiceFermata")
+        intent.data?.let {
+            val code = it.getQueryParameter("CodiceFermata")
             if (is_code_valid(code)) {
                 StopTask().execute(code)
                 mShouldExpand = false
