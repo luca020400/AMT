@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 empty_text.isClickable = true
                 empty_text.setOnClickListener {
                     startActivity(Intent.createChooser(
-                            Utils().toLink(stop.code, getString(R.string.share_subject)),
+                            Utils.toLink(stop.code, getString(R.string.share_subject)),
                             getString(R.string.share_with))
                     )
                 }
