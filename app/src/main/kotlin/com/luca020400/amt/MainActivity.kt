@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
     }
 
-    private var mCode: String? = null
+    private var mCode = ""
     private var mShouldExpand = true
 
-    fun String?.isValidCode() = this != null && this.length == 4 && this.toIntOrNull() != null
+    fun String.isValidCode() = this.length == 4 && this.toIntOrNull() != null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onRefresh() {
         if (mCode.isValidCode()) {
-            downloadStops(mCode!!)
+            downloadStops(mCode)
         } else {
             swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
