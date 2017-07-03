@@ -115,11 +115,19 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return false
     }
 
-    fun downloadStops(code: String) = launch(UI) {
+    fun downloadStops(code: String) {
         swipe_refresh.post { swipe_refresh.isRefreshing = true }
 
-        val stop = async(CommonPool) { Parser(Constants.url, code).parse() }.await()
+        launch(UI) {
+            val stop = async(CommonPool) {
+                Parser(Constants.url, code).parse()
+            }
 
+            showStops(code, stop.await())
+        }
+    }
+
+    internal fun showStops(code: String, stop: Stop) {
         if (!stop.name.isNullOrBlank() && stop.stops.isNotEmpty()) {
             mStopAdapter.addAll(stop.stops)
 
