@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
     private val mStopAdapter by lazy {
-        StopAdapter(arrayListOf<StopData>())
+        StopAdapter()
     }
 
     private val mSuggestions by lazy {

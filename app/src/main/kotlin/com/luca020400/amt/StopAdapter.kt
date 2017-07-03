@@ -6,8 +6,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-internal class StopAdapter(private val stops: ArrayList<StopData>)
-    : RecyclerView.Adapter<StopViewHolder>() {
+internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
+    private val stops: ArrayList<StopData> = arrayListOf()
+
     fun addAll(stops: ArrayList<StopData>) {
         if (this.stops != stops) {
             this.stops.clear()
@@ -24,7 +25,11 @@ internal class StopAdapter(private val stops: ArrayList<StopData>)
 
     override fun onBindViewHolder(holder: StopViewHolder, position: Int) {
         holder.viewDataBinding.setVariable(BR.stop, stops[holder.adapterPosition])
+        holder.viewDataBinding.executePendingBindings()
     }
 
     override fun getItemCount() = stops.size
+
+    class StopViewHolder(val viewDataBinding: ViewDataBinding) :
+            RecyclerView.ViewHolder(viewDataBinding.root)
 }
