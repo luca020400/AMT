@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         @UiThread
         override fun onPostExecute(stop: Stop) {
-            if (!stop.name.isNullOrBlank() && !stop.stops.isEmpty()) {
+            if (!stop.name.isNullOrBlank() && stop.stops.isNotEmpty()) {
                 stopAdapter.addAll(stop.stops)
 
                 suggestions.saveRecentQuery(stop.code, stop.name)
