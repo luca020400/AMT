@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     private var mCode: String? = null
     private var mShouldExpand = true
 
+    fun String?.isValidCode() = this != null && this.length == 4 && this.toIntOrNull() != null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_main)
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         intent.data?.let {
             val code = it.getQueryParameter("CodiceFermata")
-            if (is_code_valid(code)) {
+            if (code.isValidCode()) {
                 StopTask().execute(code)
                 mShouldExpand = false
             } else {
@@ -70,22 +72,18 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onNewIntent(intent: Intent) {
         val code = intent.getStringExtra(SearchManager.QUERY)
-        if (is_code_valid(code)) {
+        if (code.isValidCode()) {
             StopTask().execute(code)
         }
     }
 
     override fun onRefresh() {
-        if (is_code_valid(mCode)) {
+        if (mCode.isValidCode()) {
             StopTask().execute(mCode)
         } else {
             swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun is_code_valid(code: String?): Boolean {
-        return code != null && code.length == 4 && code.toIntOrNull() != null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -108,7 +106,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onQueryTextSubmit(code: String?): Boolean {
-        if (is_code_valid(code)) {
+        if (code.isValidCode()) {
             StopTask().execute(code)
         } else {
             Toast.makeText(this, R.string.codice_corto, Toast.LENGTH_SHORT).show()
