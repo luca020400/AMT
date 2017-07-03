@@ -3,11 +3,8 @@ package com.luca020400.amt
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
-import android.support.annotation.UiThread
-import android.support.annotation.WorkerThread
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -16,6 +13,9 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         intent.data?.let {
             val code = it.getQueryParameter("CodiceFermata")
             if (code.isValidCode()) {
-                StopTask().execute(code)
+                downloadStops(code)
                 mShouldExpand = false
             } else {
                 Toast.makeText(this, R.string.malformed_url,
@@ -73,13 +73,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onNewIntent(intent: Intent) {
         val code = intent.getStringExtra(SearchManager.QUERY)
         if (code.isValidCode()) {
-            StopTask().execute(code)
+            downloadStops(code)
         }
     }
 
     override fun onRefresh() {
         if (mCode.isValidCode()) {
-            StopTask().execute(mCode)
+            downloadStops(mCode!!)
         } else {
             swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
@@ -101,53 +101,44 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return true
     }
 
-    override fun onQueryTextChange(code: String?): Boolean {
+    override fun onQueryTextChange(code: String): Boolean {
         return false
     }
 
-    override fun onQueryTextSubmit(code: String?): Boolean {
+    override fun onQueryTextSubmit(code: String): Boolean {
         if (code.isValidCode()) {
-            StopTask().execute(code)
+            downloadStops(code)
         } else {
             Toast.makeText(this, R.string.codice_corto, Toast.LENGTH_SHORT).show()
         }
         return false
     }
 
-    private inner class StopTask : AsyncTask<String, Void, Stop>() {
-        @UiThread
-        override fun onPreExecute() {
-            swipe_refresh.post { swipe_refresh.isRefreshing = true }
-        }
+    fun downloadStops(code: String) = async(UI) {
+        swipe_refresh.post { swipe_refresh.isRefreshing = true }
 
-        @WorkerThread
-        override fun doInBackground(vararg strings: String): Stop {
-            return Parser(Constants.url, strings[0]).parse()
-        }
+        val stop = async(CommonPool) { Parser(Constants.url, code).parse() }.await()
 
-        @UiThread
-        override fun onPostExecute(stop: Stop) {
-            if (!stop.name.isNullOrBlank() && stop.stops.isNotEmpty()) {
-                mStopAdapter.addAll(stop.stops)
+        if (!stop.name.isNullOrBlank() && stop.stops.isNotEmpty()) {
+            mStopAdapter.addAll(stop.stops)
 
-                mSuggestions.saveRecentQuery(stop.code, stop.name)
-                empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
-                empty_text.isClickable = true
-                empty_text.setOnClickListener {
-                    startActivity(Intent.createChooser(
-                            Utils.toLink(stop.code, getString(R.string.share_subject)),
-                            getString(R.string.share_with))
-                    )
-                }
-
-                mCode = stop.code
-            } else {
-                empty_text.isClickable = empty_text.hasOnClickListeners()
-                Toast.makeText(this@MainActivity, getString(R.string.no_transiti, stop.code),
-                        Toast.LENGTH_SHORT).show()
+            mSuggestions.saveRecentQuery(code, stop.name)
+            empty_text.text = getString(R.string.status_stop_name_code, stop.name, code)
+            empty_text.isClickable = true
+            empty_text.setOnClickListener {
+                startActivity(Intent.createChooser(
+                        Utils.toLink(code, getString(R.string.share_subject)),
+                        getString(R.string.share_with))
+                )
             }
 
-            swipe_refresh.post { swipe_refresh.isRefreshing = false }
+            mCode = code
+        } else {
+            empty_text.isClickable = empty_text.hasOnClickListeners()
+            Toast.makeText(this@MainActivity, getString(R.string.no_transiti, code),
+                    Toast.LENGTH_SHORT).show()
         }
+
+        swipe_refresh.post { swipe_refresh.isRefreshing = false }
     }
 }
