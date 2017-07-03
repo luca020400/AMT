@@ -19,17 +19,17 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener {
-    private val stopAdapter by lazy {
+    private val mStopAdapter by lazy {
         StopAdapter(arrayListOf<StopData>())
     }
 
-    private val suggestions by lazy {
+    private val mSuggestions by lazy {
         SearchRecentSuggestions(this,
                 StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
     }
 
     private var mCode: String? = null
-    private var doExpand = true
+    private var mShouldExpand = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +54,14 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         // Disable item animator to prevent view blinking when refreshing
         recycler_view.itemAnimator.changeDuration = 0
         // Setup and initialize RecyclerView adapter
-        recycler_view.adapter = stopAdapter
+        recycler_view.adapter = mStopAdapter
 
         val data = intent.data
         if (data != null) {
             val code = data.getQueryParameter("CodiceFermata")
             if (is_code_valid(code)) {
                 StopTask().execute(code)
-                doExpand = false
+                mShouldExpand = false
             } else {
                 Toast.makeText(this, R.string.malformed_url,
                         Toast.LENGTH_SHORT).show()
@@ -93,13 +93,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         menuInflater.inflate(R.menu.main, menu)
 
         val item = menu.findItem(R.id.menu_search)
-        if (doExpand) item.expandActionView()
-        val mSearchView = item.actionView as SearchView
+        if (mShouldExpand) item.expandActionView()
+        val searchView = item.actionView as SearchView
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        mSearchView.maxWidth = Integer.MAX_VALUE
-        mSearchView.setOnQueryTextListener(this)
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.setOnQueryTextListener(this)
 
         return true
     }
@@ -131,9 +131,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         @UiThread
         override fun onPostExecute(stop: Stop) {
             if (!stop.name.isNullOrBlank() && stop.stops.isNotEmpty()) {
-                stopAdapter.addAll(stop.stops)
+                mStopAdapter.addAll(stop.stops)
 
-                suggestions.saveRecentQuery(stop.code, stop.name)
+                mSuggestions.saveRecentQuery(stop.code, stop.name)
                 empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
                 empty_text.isClickable = true
                 empty_text.setOnClickListener {

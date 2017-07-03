@@ -23,8 +23,8 @@ internal class Parser(val url: String, val code: String) {
             return Stop(code, null, stops)
         }
 
-        val br = document.select("font")
-        name = br[1].text()
+        val brs = document.select("font")
+        name = brs[1].text()
 
         val trs = document.select("tr")
         trs.removeAt(0)
