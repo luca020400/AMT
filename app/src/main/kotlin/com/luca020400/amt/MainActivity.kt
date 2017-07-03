@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 StopTask().execute(code)
                 doExpand = false
             } else {
-                Toast.makeText(applicationContext, R.string.malformed_url,
+                Toast.makeText(this, R.string.malformed_url,
                         Toast.LENGTH_SHORT).show()
             }
         }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             StopTask().execute(mCode)
         } else {
             swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
-            Toast.makeText(applicationContext, R.string.invalid_code, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (is_code_valid(code)) {
             StopTask().execute(code)
         } else {
-            Toast.makeText(applicationContext, R.string.codice_corto, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.codice_corto, Toast.LENGTH_SHORT).show()
         }
         return false
     }
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
                 mCode = stop.code
             } else {
-                Toast.makeText(applicationContext, getString(R.string.no_transiti, stop.code),
+                Toast.makeText(this@MainActivity, getString(R.string.no_transiti, stop.code),
                         Toast.LENGTH_SHORT).show()
             }
 
