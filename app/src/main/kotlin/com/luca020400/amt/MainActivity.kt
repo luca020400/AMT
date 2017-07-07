@@ -121,9 +121,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         launch(UI) {
             val stop = async(CommonPool) {
                 Parser(Constants.url, code).parse()
-            }
+            }.await()
 
-            showStops(code, stop.await())
+            showStops(code, stop)
+            mCode = code
         }
     }
 
@@ -140,8 +141,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                         getString(R.string.share_with))
                 )
             }
-
-            mCode = code
         } else {
             Toast.makeText(this@MainActivity, getString(R.string.no_transiti, code),
                     Toast.LENGTH_SHORT).show()
