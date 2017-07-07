@@ -19,7 +19,7 @@ internal class Parser(private val url: String, private val code: String) {
                 throw Throwable("Document is empty")
             }
         } catch (e: Throwable) {
-            Log.e(TAG, e.localizedMessage, e)
+            Log.e(TAG, e.message, e)
             return Stop(code, null, stops)
         }
 
