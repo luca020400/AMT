@@ -124,7 +124,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             }.await()
 
             showStops(code, stop)
-            mCode = code
         }
     }
 
@@ -146,6 +145,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                     Toast.LENGTH_SHORT).show()
         }
 
+        mCode = code
         swipe_refresh.post { swipe_refresh.isRefreshing = false }
     }
 }
