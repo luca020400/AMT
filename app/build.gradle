@@ -86,9 +86,3 @@ repositories {
         // Alternative URL is 'https://dl.google.com/dl/android/maven2/'
     }
 }
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
