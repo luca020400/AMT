@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -15,10 +14,6 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
-    }
-
-    dataBinding {
-        enabled = true
     }
 
     compileOptions {
@@ -75,8 +70,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16"
 
     implementation 'org.jsoup:jsoup:1.10.3'
-
-    kapt "com.android.databinding:compiler:$android_version"
 }
 
 repositories {
