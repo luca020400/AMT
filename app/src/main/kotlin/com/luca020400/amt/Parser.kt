@@ -13,8 +13,7 @@ internal class Parser(private val url: String, private val code: String) {
         val document: Document?
 
         try {
-            document = Jsoup.connect(url).data("CodiceFermata", code).get()
-                    .takeIf { it.hasText() }
+            document = Jsoup.connect(url).data("CodiceFermata", code).get().takeIf { it.hasText() }
             if (document == null) {
                 throw Throwable("Document is empty")
             }
