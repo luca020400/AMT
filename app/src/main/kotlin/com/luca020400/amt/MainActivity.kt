@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         search_view.setOnQueryTextListener(this)
         search_view.onActionViewExpanded()
 
+        handleViewIntent(intent)
+    }
+
+    fun handleViewIntent(intent: Intent) {
         intent.data?.let {
             val code = it.getQueryParameter("CodiceFermata")
             if (code.isValidCode()) {
@@ -74,11 +78,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onNewIntent(intent: Intent) {
-        if (intent.action != Intent.ACTION_SEARCH) return
-
-        val code = intent.getStringExtra(SearchManager.QUERY)
-        if (code.isValidCode()) {
-            StopTask().execute(code)
+        if (intent.action == Intent.ACTION_SEARCH) {
+            val code = intent.getStringExtra(SearchManager.QUERY)
+            if (code.isValidCode()) {
+                StopTask().execute(code)
+            }
+        } else if (intent.action == Intent.ACTION_VIEW) {
+            handleViewIntent(intent)
         }
     }
 
