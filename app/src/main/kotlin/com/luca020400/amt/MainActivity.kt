@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 StopSuggestionProvider.AUTHORITY, StopSuggestionProvider.MODE)
     }
 
-    private var mCode = ""
+    private var mCode: String? = null
     private var mShouldExpand = true
 
-    fun String.isValidCode() = matches("\\d{4}".toRegex())
+    fun String?.isValidCode() = this != null && matches("\\d{4}".toRegex())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
