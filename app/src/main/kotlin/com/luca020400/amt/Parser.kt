@@ -5,7 +5,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 internal class Parser(private val url: String, private val code: String) {
-    private val TAG = this.javaClass.simpleName
+    private val TAG = "Parser"
 
     fun parse(): Stop {
         val name: String
