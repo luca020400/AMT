@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         search_view.setOnQueryTextListener(this)
         search_view.onActionViewExpanded()
 
-        handleViewIntent(intent)
+        onNewIntent(intent)
     }
 
     fun handleViewIntent(intent: Intent) {
