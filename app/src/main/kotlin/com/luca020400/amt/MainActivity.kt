@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.view.Menu
 import android.widget.Toast
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private var mCode: String? = null
-    private var mShouldExpand = true
 
     fun String?.isValidCode() = this != null && matches("\\d{4}".toRegex())
 
@@ -56,11 +54,18 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         // Setup and initialize RecyclerView adapter
         recycler_view.adapter = mStopAdapter
 
+        // Setup SearchView
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        search_view.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        search_view.maxWidth = Integer.MAX_VALUE
+        search_view.setOnQueryTextListener(this)
+        search_view.onActionViewExpanded()
+
         intent.data?.let {
             val code = it.getQueryParameter("CodiceFermata")
             if (code.isValidCode()) {
                 StopTask().execute(code)
-                mShouldExpand = false
+                search_view.clearFocus()
             } else {
                 Toast.makeText(this, R.string.malformed_url,
                         Toast.LENGTH_SHORT).show()
@@ -84,21 +89,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-
-        val item = menu.findItem(R.id.menu_search)
-        if (mShouldExpand) item.expandActionView()
-        val searchView = item.actionView as SearchView
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.maxWidth = Integer.MAX_VALUE
-        searchView.setOnQueryTextListener(this)
-
-        return true
     }
 
     override fun onQueryTextChange(code: String): Boolean {
