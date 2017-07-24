@@ -66,8 +66,6 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$android_support_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines"
 
     implementation 'org.jsoup:jsoup:1.10.3'
 }

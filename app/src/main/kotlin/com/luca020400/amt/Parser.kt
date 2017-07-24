@@ -19,7 +19,7 @@ internal class Parser(private val url: String, private val code: String) {
             }
         } catch (e: Throwable) {
             Log.e(TAG, e.message, e)
-            return Stop(null, stops)
+            return Stop(code, null, stops)
         }
 
         val brs = document.select("font")
@@ -32,6 +32,6 @@ internal class Parser(private val url: String, private val code: String) {
                 .filter { it.size == 4 }
                 .mapTo(stops) { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) }
 
-        return Stop(name, stops)
+        return Stop(code, name, stops)
     }
 }
