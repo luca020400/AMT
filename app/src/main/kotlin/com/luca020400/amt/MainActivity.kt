@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onNewIntent(intent: Intent) {
+        if (intent.action != Intent.ACTION_SEARCH) return
+
         val code = intent.getStringExtra(SearchManager.QUERY)
         if (code.isValidCode()) {
             downloadStops(code)
