@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             val dividerItemDecoration = DividerItemDecoration(recycler_view.context,
                     linearLayoutManager.orientation)
             addItemDecoration(dividerItemDecoration)
-            // Disable item animator to prevent view blinking when refreshing
-            itemAnimator.changeDuration = 0
             // Setup and initialize the adapter
             adapter = mStopAdapter
         }
