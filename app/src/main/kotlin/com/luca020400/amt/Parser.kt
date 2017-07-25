@@ -10,11 +10,11 @@ internal class Parser(private val url: String, private val code: String) {
     fun parse(): Stop {
         val name: String
         val stops = arrayListOf<StopData>()
-        val document: Document?
+        val document: Document
 
         try {
-            document = Jsoup.connect(url).data("CodiceFermata", code).get().takeIf { it.hasText() }
-            if (document == null) {
+            document = Jsoup.connect(url).data("CodiceFermata", code).get()
+            if (!document.hasText()) {
                 throw Throwable("Document is empty")
             }
         } catch (e: Throwable) {
