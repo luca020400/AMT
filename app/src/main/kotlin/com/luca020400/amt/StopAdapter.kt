@@ -31,10 +31,12 @@ internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() 
 
     class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindStop(stopData: StopData) {
-            itemView.line.text = stopData.line
-            itemView.eta.text = stopData.remaining_time
-            itemView.destination.text = stopData.destination
-            itemView.schedule.text = stopData.schedule
+            with(itemView) {
+                line.text = stopData.line
+                eta.text = stopData.remaining_time
+                destination.text = stopData.destination
+                schedule.text = stopData.schedule
+            }
         }
     }
 }

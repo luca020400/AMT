@@ -35,31 +35,44 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         setSupportActionBar(toolbar)
 
-        // Setup refresh listener which triggers new data loading
-        swipe_refresh.setOnRefreshListener(this)
-        // Color scheme of the refresh spinner
-        swipe_refresh.setColorSchemeResources(
-                R.color.colorPrimaryDark, R.color.colorAccent)
+        // Setup SwipeRefreshLayout
+        with(swipe_refresh) {
+            // Setup refresh listener which triggers new data loading
+            setOnRefreshListener(this@MainActivity)
+            // Color scheme of the refresh spinner
+            setColorSchemeResources(
+                    R.color.colorPrimaryDark, R.color.colorAccent)
+        }
 
         // Setup RecyclerView
-        recycler_view.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this)
-        recycler_view.layoutManager = layoutManager
-        // Setup divider for RecyclerView items
-        val dividerItemDecoration = DividerItemDecoration(recycler_view.context,
-                layoutManager.orientation)
-        recycler_view.addItemDecoration(dividerItemDecoration)
-        // Disable item animator to prevent view blinking when refreshing
-        recycler_view.itemAnimator.changeDuration = 0
-        // Setup and initialize RecyclerView adapter
-        recycler_view.adapter = mStopAdapter
+        with(recycler_view) {
+            // Avoid unnecessary layout changes
+            setHasFixedSize(true)
+            // Setup the layout manager
+            val linearLayoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = linearLayoutManager
+            // Setup divider for the items
+            val dividerItemDecoration = DividerItemDecoration(recycler_view.context,
+                    linearLayoutManager.orientation)
+            addItemDecoration(dividerItemDecoration)
+            // Disable item animator to prevent view blinking when refreshing
+            itemAnimator.changeDuration = 0
+            // Setup and initialize the adapter
+            adapter = mStopAdapter
+        }
 
         // Setup SearchView
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        search_view.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        search_view.maxWidth = Integer.MAX_VALUE
-        search_view.setOnQueryTextListener(this)
-        search_view.onActionViewExpanded()
+        with(search_view) {
+            // Setup the searchable info
+            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            // Set max width to MAX
+            maxWidth = Integer.MAX_VALUE
+            // Setup query text listener
+            setOnQueryTextListener(this@MainActivity)
+            // Expand the view
+            onActionViewExpanded()
+        }
 
         onNewIntent(intent)
     }
@@ -120,13 +133,15 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 mStopAdapter.addAll(stop.stops)
 
                 mSuggestions.saveRecentQuery(stop.code, stop.name)
-                empty_text.text = getString(R.string.status_stop_name_code, stop.name, stop.code)
-                empty_text.isClickable = true
-                empty_text.setOnClickListener {
-                    startActivity(Intent.createChooser(
-                            Utils.toLink(stop.code, getString(R.string.share_subject)),
-                            getString(R.string.share_with))
-                    )
+                with(empty_text) {
+                    text = getString(R.string.status_stop_name_code, stop.name, stop.code)
+                    isClickable = true
+                    setOnClickListener {
+                        startActivity(Intent.createChooser(
+                                Utils.toLink(stop.code, getString(R.string.share_subject)),
+                                getString(R.string.share_with))
+                        )
+                    }
                 }
             } else {
                 Toast.makeText(this@MainActivity, getString(R.string.no_transiti, stop.code),
