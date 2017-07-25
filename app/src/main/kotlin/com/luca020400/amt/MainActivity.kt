@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         // Setup RecyclerView
         with(recycler_view) {
-            // Avoid unnecessary layout changes
-            setHasFixedSize(true)
             // Setup the layout manager
             val linearLayoutManager = LinearLayoutManager(this@MainActivity)
             layoutManager = linearLayoutManager
