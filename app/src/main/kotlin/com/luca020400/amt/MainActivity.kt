@@ -64,19 +64,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         onNewIntent(intent)
     }
 
-    fun handleViewIntent(intent: Intent) {
-        intent.data?.let {
-            val code = it.getQueryParameter("CodiceFermata")
-            if (code.isValidCode()) {
-                StopTask().execute(code)
-                search_view.clearFocus()
-            } else {
-                Toast.makeText(this, R.string.malformed_url,
-                        Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     override fun onNewIntent(intent: Intent) {
         if (intent.action == Intent.ACTION_SEARCH) {
             val code = intent.getStringExtra(SearchManager.QUERY)
@@ -84,7 +71,16 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 StopTask().execute(code)
             }
         } else if (intent.action == Intent.ACTION_VIEW) {
-            handleViewIntent(intent)
+            intent.data?.let {
+                val code = it.getQueryParameter("CodiceFermata")
+                if (code.isValidCode()) {
+                    StopTask().execute(code)
+                    search_view.clearFocus()
+                } else {
+                    Toast.makeText(this, R.string.malformed_url,
+                            Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
