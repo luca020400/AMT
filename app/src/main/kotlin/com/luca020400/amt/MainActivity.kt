@@ -101,9 +101,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    override fun onQueryTextChange(code: String): Boolean {
-        return false
-    }
+    override fun onQueryTextChange(code: String) = false
 
     override fun onQueryTextSubmit(code: String): Boolean {
         if (code.isValidCode()) {
