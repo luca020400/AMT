@@ -8,7 +8,6 @@ internal class Parser(private val url: String, private val code: String) {
     private val TAG = "Parser"
 
     fun parse(): Stop {
-        val name: String
         val stops = arrayListOf<StopData>()
         val document: Document
 
@@ -22,12 +21,9 @@ internal class Parser(private val url: String, private val code: String) {
             return Stop(code, null, stops)
         }
 
-        val brs = document.select("font")
-        name = brs[1].text()
+        val name = document.select("font")[1].text()
 
-        val trs = document.select("tr")
-        trs.removeAt(0)
-        trs
+        document.select("tr")
                 .map { it.select("td") }
                 .filter { it.size == 4 }
                 .mapTo(stops) { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) }
