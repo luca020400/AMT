@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     private var mCode: String? = null
 
-    fun String?.isValidCode() = this != null && matches("\\d{4}".toRegex())
+    private fun String?.isValidCode() = this != null && matches("\\d{4}".toRegex())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             // Setup refresh listener which triggers new data loading
             setOnRefreshListener(this@MainActivity)
             // Color scheme of the refresh spinner
-            setColorSchemeResources(
-                    R.color.colorPrimaryDark, R.color.colorAccent)
+            setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorAccent)
         }
 
         // Setup RecyclerView
