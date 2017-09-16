@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             // Setup the searchable info
             val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            // Set max width to MAX
-            maxWidth = Integer.MAX_VALUE
             // Setup query text listener
             setOnQueryTextListener(this@MainActivity)
             // Expand the view
