@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             }
         } else if (intent.action == Intent.ACTION_VIEW) {
             intent.data?.let {
-                val code = it.getQueryParameter("CodiceFermata")
+                val code = it.getQueryParameter(Constants.query)
                 if (code.isValidCode()) {
                     StopTask().execute(code)
                     search_view.clearFocus()

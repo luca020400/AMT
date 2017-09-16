@@ -7,7 +7,8 @@ internal object Utils {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, here)
-        shareIntent.putExtra(Intent.EXTRA_TEXT, Constants.url + "?CodiceFermata=" + code)
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                Constants.url + "?" + Constants.query + "=" + code)
         shareIntent.type = "text/plain"
         return shareIntent
     }
