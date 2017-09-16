@@ -1,5 +1,6 @@
 package com.luca020400.amt
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -112,6 +113,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         return false
     }
 
+    @SuppressLint("StaticFieldLeak")
     private inner class StopTask : AsyncTask<String, Void, Stop>() {
         override fun onPreExecute() {
             swipe_refresh.post { swipe_refresh.isRefreshing = true }
