@@ -5,7 +5,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 internal class Parser(private val url: String, private val code: String) {
-    private val TAG = "Parser"
+    private val sTAG = "Parser"
 
     fun parse(): Stop {
         val stops = arrayListOf<StopData>()
@@ -17,7 +17,7 @@ internal class Parser(private val url: String, private val code: String) {
                 throw Throwable("Document is empty")
             }
         } catch (e: Throwable) {
-            Log.e(TAG, e.message, e)
+            Log.e(sTAG, e.message, e)
             return Stop(code, null, stops)
         }
 
