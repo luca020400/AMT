@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     @SuppressLint("StaticFieldLeak")
     private inner class StopTask : AsyncTask<String, Void, Stop>() {
         override fun onPreExecute() {
-            swipe_refresh.post { swipe_refresh.isRefreshing = true }
+            with(swipe_refresh) { post { isRefreshing = true } }
         }
 
         override fun doInBackground(vararg strings: String): Stop {
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             }
 
             mCode = stop.code
-            swipe_refresh.post { swipe_refresh.isRefreshing = false }
+            with(swipe_refresh) { post { isRefreshing = false } }
         }
     }
 }
