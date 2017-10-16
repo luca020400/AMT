@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             with(swipe_refresh) { post { isRefreshing = true } }
         }
 
-        override fun doInBackground(vararg strings: String): Stop =
+        override fun doInBackground(vararg strings: String) =
                 Parser(Constants.url, strings[0]).parse()
 
         override fun onPostExecute(stop: Stop) {
