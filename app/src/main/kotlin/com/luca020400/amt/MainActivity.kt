@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (mCode.isValidCode()) {
             StopTask().execute(mCode)
         } else {
-            swipe_refresh.postDelayed({ swipe_refresh.isRefreshing = false }, 250)
+            with(swipe_refresh) { postDelayed({ isRefreshing = false }, 250) }
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
         }
     }
