@@ -17,11 +17,9 @@ internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StopViewHolder {
-        val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.stop_adapter, parent, false)
-        return StopViewHolder(v)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            StopViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.stop_adapter, parent, false))
 
     override fun onBindViewHolder(holder: StopViewHolder, position: Int) {
         holder.bindStop(stops[holder.adapterPosition])
