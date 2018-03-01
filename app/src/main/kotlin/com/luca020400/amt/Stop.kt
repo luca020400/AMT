@@ -3,5 +3,5 @@ package com.luca020400.amt
 internal class Stop(
         val code: String,
         val name: String?,
-        val stops: ArrayList<StopData>
+        val stops: List<StopData>
 )

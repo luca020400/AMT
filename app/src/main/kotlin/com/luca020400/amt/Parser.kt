@@ -8,7 +8,6 @@ internal class Parser(private val url: String, private val code: String) {
     private val sTAG = "Parser"
 
     fun parse(): Stop {
-        val stops = arrayListOf<StopData>()
         val document: Document
 
         try {
@@ -18,16 +17,15 @@ internal class Parser(private val url: String, private val code: String) {
             }
         } catch (e: Throwable) {
             Log.e(sTAG, e.message, e)
-            return Stop(code, null, stops)
+            return Stop(code, null, listOf())
         }
 
         val name = document.select("font")[1].text()
 
-        document.select("tr")
-                .map { it.select("td") }
-                .filter { it.size == 4 }
-                .mapTo(stops) { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) }
-
-        return Stop(code, name, stops)
+        return Stop(code, name,
+                document.select("tr")
+                        .map { it.select("td") }
+                        .filter { it.size == 4 }
+                        .map { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) })
     }
 }

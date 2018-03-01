@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.stop_adapter.view.*
 
 internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
-    private val stops = arrayListOf<StopData>()
+    private val stops = mutableListOf<StopData>()
 
-    fun addAll(stops: ArrayList<StopData>) {
+    fun addAll(stops: List<StopData>) {
         if (this.stops != stops) {
             this.stops.clear()
             this.stops.addAll(stops)
