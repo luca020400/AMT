@@ -22,10 +22,9 @@ internal class Parser(private val url: String, private val code: String) {
 
         val name = document.select("font")[1].text()
 
-        return Stop(code, name,
-                document.select("tr")
-                        .map { it.select("td") }
-                        .filter { it.size == 4 }
-                        .map { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) })
+        return Stop(code, name, document.select("tr")
+                .map { it.select("td") }
+                .filter { it.size == 4 }
+                .map { StopData(it[0].text(), it[1].text(), it[2].text(), it[3].text()) })
     }
 }
