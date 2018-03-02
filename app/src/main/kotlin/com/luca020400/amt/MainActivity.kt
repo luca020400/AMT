@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         // Setup SearchView
         with(search_view) {
             // Setup the searchable info
-            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            val searchManager = getSystemService(SearchManager::class.java)
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             // Setup query text listener
             setOnQueryTextListener(this@MainActivity)
