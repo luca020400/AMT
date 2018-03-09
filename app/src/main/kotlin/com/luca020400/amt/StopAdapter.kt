@@ -28,13 +28,11 @@ internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() 
     override fun getItemCount() = stops.size
 
     class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindStop(stopData: StopData) {
-            with(itemView) {
-                line.text = stopData.line
-                eta.text = stopData.remaining_time
-                destination.text = stopData.destination
-                schedule.text = stopData.schedule
-            }
+        fun bindStop(stopData: StopData) = with(itemView) {
+            line.text = stopData.line
+            eta.text = stopData.remaining_time
+            destination.text = stopData.destination
+            schedule.text = stopData.schedule
         }
     }
 }
