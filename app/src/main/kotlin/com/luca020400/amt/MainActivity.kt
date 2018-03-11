@@ -2,7 +2,6 @@ package com.luca020400.amt
 
 import android.annotation.SuppressLint
 import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
