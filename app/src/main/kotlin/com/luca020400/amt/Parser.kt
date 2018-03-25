@@ -17,7 +17,7 @@ internal class Parser(private val url: String, private val code: String) {
             }
         } catch (e: Throwable) {
             Log.e(sTAG, e.message, e)
-            return Stop(code, null, listOf())
+            return Stop(code, null, emptyList())
         }
 
         val name = document.select("font")[1].text()
