@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AMT</string>
+    <string name="no_transiti">Nessun transito per la fermata %1$s</string>
+
+    <string name="status_no_results">Cerca i prossimi passaggi scrivendo il codice a 4 cifre della fermata</string>
+    <string name="status_stop_name_code">Prossimi passaggi per la fermata\n%1$s - %2$s</string>
+
+    <string name="search_hint">Cerca fermata\u2026</string>
+    <string name="codice_corto">Inserisci un codice a 4 cifre</string>
+    <string name="malformed_url">URL malformato</string>
+    <string name="invalid_code">Il codice della fermata non è valido</string>
+
+    <string name="share_with">Condividi la fermata con …</string>
+    <string name="share_subject">Sono qui!</string>
+</resources>

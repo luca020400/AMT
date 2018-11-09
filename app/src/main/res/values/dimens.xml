@@ -1,0 +1,7 @@
+<resources>
+    <!-- Padding of the ListView elements -->
+    <dimen name="list_top_padding">10dp</dimen>
+    <dimen name="list_bot_padding">10dp</dimen>
+    <dimen name="list_right_padding">16dp</dimen>
+    <dimen name="list_left_padding">16dp</dimen>
+</resources>
