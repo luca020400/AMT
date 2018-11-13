@@ -110,6 +110,13 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         onNewIntent(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (::code.isInitialized && code.isValidCode()) {
+            viewModel.loadStops(code)
+        }
+    }
+
     override fun onNewIntent(intent: Intent) {
         if (intent.action == Intent.ACTION_SEARCH) {
             code = intent.getStringExtra(SearchManager.QUERY)
@@ -140,8 +147,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             swipe_refresh.isRefreshing = true
             viewModel.loadStops(code)
         } else {
-            with(swipe_refresh) { postDelayed({ isRefreshing = false }, 250) }
             Toast.makeText(this, R.string.invalid_code, Toast.LENGTH_SHORT).show()
+            swipe_refresh.isRefreshing = false
         }
     }
 
