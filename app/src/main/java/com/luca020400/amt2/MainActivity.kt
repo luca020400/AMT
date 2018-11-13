@@ -83,26 +83,28 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             // update UI
             if (stop.stops.isNotEmpty()) {
                 mStopAdapter.addAll(stop.stops)
+
+                with(empty_text) {
+                    text = getString(R.string.status_stop_name_code, stop.name, stop.code)
+                    isClickable = true
+                    setOnClickListener {
+                        startActivity(
+                            Intent.createChooser(
+                                Utils.toLink(stop.code, getString(R.string.share_subject)),
+                                getString(R.string.share_with)
+                            )
+                        )
+                    }
+                }
             } else {
-                Toast.makeText(
-                    this, getString(R.string.no_transiti, stop.code),
-                    Toast.LENGTH_SHORT
-                ).show()
+                mStopAdapter.clear()
+                with(empty_text) {
+                    text = getString(R.string.no_transiti, stop.code)
+                    isClickable = false
+                }
             }
 
             mSuggestions.saveRecentQuery(stop.code, stop.name)
-            with(empty_text) {
-                text = getString(R.string.status_stop_name_code, stop.name, stop.code)
-                isClickable = true
-                setOnClickListener {
-                    startActivity(
-                        Intent.createChooser(
-                            Utils.toLink(stop.code, getString(R.string.share_subject)),
-                            getString(R.string.share_with)
-                        )
-                    )
-                }
-            }
             code = stop.code
             swipe_refresh.isRefreshing = false
         })
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onNewIntent(intent: Intent) {
         if (intent.action == Intent.ACTION_SEARCH) {
             code = intent.getStringExtra(SearchManager.QUERY)
+            search_view.setQuery(code, false)
             if (code.isValidCode()) {
                 swipe_refresh.isRefreshing = true
                 viewModel.loadStops(code)

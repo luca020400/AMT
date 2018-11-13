@@ -19,6 +19,11 @@ internal class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() 
         }
     }
 
+    fun clear() {
+        this.stops.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         StopViewHolder(
             LayoutInflater.from(parent.context)
